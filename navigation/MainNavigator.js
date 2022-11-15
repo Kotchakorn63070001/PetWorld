@@ -21,6 +21,7 @@ import SignUpScreen from "../screens/SignUpScreen";
 import CreateFindMyPetScreen from "../screens/CreateFindMyPetScreen";
 import CustomHeaderButton from "../components/CustomHeaderButton";
 import CreateDiscussProblemScreen from "../screens/CreateDiscussProblemScreen";
+import CreateFindHomeScreen from "../screens/CreateFindHomeScreen";
 import { auth } from "../firebase";
 
 const Stack = createNativeStackNavigator();
@@ -99,6 +100,7 @@ function MyStack(){
             <Stack.Screen name="SignUp" component={SignUpScreen}/>
             <Stack.Screen name="CreateFindMyPet" component={CreateFindMyPetScreen}/>
             <Stack.Screen name="CreateDiscussProblem" component={CreateDiscussProblemScreen}/>
+            <Stack.Screen name="CreateFindHome" component={CreateFindHomeScreen} />
             <Stack.Screen name="AllTab" component={MyBottomTab}/>
         </Stack.Navigator>
     );
