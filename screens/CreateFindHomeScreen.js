@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, TextInput ,Platform,Alert,ScrollView} from 'react-native'
 import React, { useEffect, useState } from 'react'
 // import React from 'react'
-import { Ionicons,MaterialIcons,Entypo } from '@expo/vector-icons'
+import { Ionicons,MaterialIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import Constants from 'expo-constants'
 import * as Permissions from 'expo-permissions'
@@ -17,7 +17,9 @@ const CreateFindHomeScreen = () => {
 
 
     const [namePet,setNamePet] = useState('');
+    const [namePetError,setNamePetError] = useState('');
     const [breed,setBreed] = useState('');
+    const [breedError,setBreedError] = useState('');
     const [detail,setDetail] = useState('');
     const [detailError, setDetailError] = useState('');
     const [image, setImage] = useState(null);
@@ -103,21 +105,47 @@ const CreateFindHomeScreen = () => {
     // }
 
    
-    
-
+    const namePetValidator = () =>{
+        if(namePet==""){
+            setNamePetError("กรุณาใส่ชื่อ")
+        }
+        else{
+            setNamePetError('')
+        }
+        
+    }
+    const breedValidator =() => {
+        if(breed==""){
+            setBreedError('กรุณาใส่พันธุ์')
+        }
+        else {
+            setBreedError('')
+        }
+    }
     const detailValidator =()=>{
+        
         if(detail==""){
             setDetailError("กรุณาใส่รายละเอียด")
         }
-        else{
+        else{   
             setDetailError('')
         }
     }
+
+
     const handlePost = () => {
-        if(detail==""){
+        if(namePet==""){
+            setNamePetError("กรุณาใส่ชื่อ")
+        }
+        else if(breed==""){
+            setBreedError('กรุณาใส่พันธุ์')
+        }
+        else if(detail==""){
             setDetailError("กรุณาใส่รายละเอียด")
         }
         else{
+            setNamePetError('')
+            setBreedError('')
             setDetailError('')
         db.collection('postHelpFindHome').add({
             namePet: namePet.trim(),
@@ -158,12 +186,14 @@ const CreateFindHomeScreen = () => {
         <View style={styles.inputContainer}>
         <Text style={styles.label}>ชื่อสัตว์เลี้ยง :</Text>
                 <TextInput 
+                placeholder="หากไม่มีกรุณาใส่ - "
                  autoFocus={true} 
                     style={styles.textInput}
+                    onBlur={()=>namePetValidator()}
                     onChangeText={text => setNamePet(text)}
                     value={namePet}>
                 </TextInput>
-
+                <Text style={{color:'red',size:16,}}>{namePetError}</Text>
                 <Text style={styles.label}>ประเภทสัตว์เลี้ยง :</Text>
                     <View style={{marginVertical: 12, marginLeft: 10}}>
                         <TouchableOpacity style={{flexDirection: 'row', padding: 5, alignItems: 'center'}}
@@ -183,11 +213,13 @@ const CreateFindHomeScreen = () => {
 
         <Text style={styles.label}>พันธุ์สัตว์เลี้ยง :</Text>
                 <TextInput 
+                placeholder="หากไม่ทราบกรุณาใส่ - "
                     style={styles.textInput}
+                    onBlur={()=>breedValidator()}
                     onChangeText={text => setBreed(text)}
                     value={breed}>
                 </TextInput>   
-        
+                <Text style={{color:'red',size:16,}}>{breedError}</Text>
         <Text style={styles.label}>รายละเอียดเพิ่มเติม : </Text>
                 <TextInput 
                     multiline={true} 
