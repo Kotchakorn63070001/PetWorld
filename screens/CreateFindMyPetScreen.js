@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, TextInput, Alert } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, TextInput, Alert, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Ionicons, MaterialIcons} from '@expo/vector-icons'
 import Constants from 'expo-constants'
@@ -21,9 +21,20 @@ const CreateFindMyPetScreen = () => {
     const [image, setImage] = useState(null);
     const [imagePick, setImagePick] = useState(null);
     const [uploading, setUploading] = useState(false);
+    const [type, setType] = useState('');
+    const [isDog, setIsDog] = React.useState(true);
+    const [isCat, setIsCat] = React.useState(false)
 
     useEffect(() => {
         getPhotoPermission();
+        if (isDog == true){
+            setType('หมา')
+            console.log(type)
+        }else{
+            setType('แมว')
+            console.log(type)
+        }
+        console.log('---------------------------หมาหรือแมว : '+type+'----------------------')
       });
 
     const getPhotoPermission = async () => {
@@ -36,8 +47,11 @@ const CreateFindMyPetScreen = () => {
     }
 
     const handlePost = () => {
-        db.collection('postFindMyPet').add({
+       
+        console.log('-----------------handlePost----------------------')
+        db.collection('postFindMyPets').add({
             namePet: namePet.trim(),
+            petType: type,
             breed: breed.trim(),
             location: location.trim(),
             detail: detail.trim(),
@@ -47,6 +61,7 @@ const CreateFindMyPetScreen = () => {
         })
         .then((docRef) => {
             setNamePet('');
+            setType('');
             setBreed('');
             setLocation('');
             setDetail('');
@@ -108,49 +123,73 @@ const CreateFindMyPetScreen = () => {
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Ionicons name="md-arrow-back" size={24} color="black" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={handlePost}>
-                    <Text style={{fontWeight: '500'}}>Post</Text>
+                <TouchableOpacity onPress={handlePost} style={{borderRadius: 15, backgroundColor: "#f57c00", padding: 2, width: 55, alignItems: 'center'}}>
+                    <Text style={{fontWeight: '500', fontSize: 16, color: 'white'}}>โพสต์</Text>
                 </TouchableOpacity>
+                
             </View>
+            
+            <ScrollView>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.label}>ชื่อสัตว์เลี้ยง :</Text>
+                     <TextInput 
+                        style={styles.textInput}
+                        onChangeText={text => setNamePet(text)}
+                        value={namePet}>
+                    </TextInput>
+                    <Text style={styles.label}>ประเภทสัตว์เลี้ยง :</Text>
+                    <View style={{marginVertical: 12, marginLeft: 10}}>
+                        <TouchableOpacity style={{flexDirection: 'row', padding: 5, alignItems: 'center'}}
+                              onPress={() => {setIsDog(isDog => !isDog); setIsCat(isCat=> !isCat) } }>
+                            {isDog ? <Ionicons name="radio-button-on-outline" size={24} color="black" />
+                                   : <Ionicons name="radio-button-off-outline" size={24} color="black" />}
+                            <Text style={{fontSize: 15}}> หมา</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{flexDirection: 'row', padding: 5, alignItems: 'center'}}
+                            onPress={() => {setIsCat(isCat=>!isCat); setIsDog(isDog=>!isDog)}}>
+                            {isCat ? <Ionicons name="radio-button-on-outline" size={24} color="black" />
+                                   : <Ionicons name="radio-button-off-outline" size={24} color="black" />}
+                            <Text style={{fontSize: 15}}> แมว</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <Text style={styles.label}>พันธุ์สัตว์เลี้ยง :</Text>
+                    <TextInput 
+                        style={styles.textInput}
+                        onChangeText={text => setBreed(text)}
+                        value={breed}
+                        >
+                    </TextInput>
+                    <Text style={styles.label}>สถานที่พบล่าสุด :</Text>
+                    <TextInput
+                        style={styles.textInput}
+                        onChangeText={text => setLocation(text)}
+                        value={location}>
+                    </TextInput>
+                    <Text style={styles.label}>รายละเอียดเพิ่มเติม :</Text>
+                    <TextInput 
+                        autoFocus={true} 
+                        multiline={true} 
+                        numberOfLines={4} 
+                        style={styles.textInputMultiline}
+                        onChangeText={text => setDetail(text)}
+                        value={detail}>
+                    </TextInput>
 
-            <View style={styles.inputContainer}>
-                <Text style={styles.label}>ชื่อสัตว์เลี้ยง :</Text>
-                <TextInput 
-                    style={styles.textInput}
-                    onChangeText={text => setNamePet(text)}
-                    value={namePet}>
-                </TextInput>
-                <Text style={styles.label}>พันธุ์สัตว์เลี้ยง :</Text>
-                <TextInput 
-                    style={styles.textInput}
-                    onChangeText={text => setBreed(text)}
-                    value={breed}
-                    >
-                </TextInput>
-                <Text style={styles.label}>สถานที่พบล่าสุด :</Text>
-                <TextInput
-                    style={styles.textInput}
-                    onChangeText={text => setLocation(text)}
-                    value={location}>
-                </TextInput>
-                <Text style={styles.label}>รายละเอียดเพิ่มเติม :</Text>
-                <TextInput 
-                    autoFocus={true} 
-                    multiline={true} 
-                    numberOfLines={4} 
-                    style={styles.textInputMultiline}
-                    onChangeText={text => setDetail(text)}
-                    value={detail}>
-                </TextInput>
-            </View>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                        <Text style={styles.label}>รูปภาพสัตว์เลี้ยงของคุณ :</Text>
+                        <TouchableOpacity style={styles.photo} onPress={pickImage}>
+                            <MaterialIcons name="add-photo-alternate" size={32} color="#d8d9db" />
+                        </TouchableOpacity>
+                    </View>
 
-            <TouchableOpacity style={styles.photo} onPress={pickImage}>
-                <MaterialIcons name="add-photo-alternate" size={32} color="#d8d9db" />
-            </TouchableOpacity>
-        
-            <View style={{marginHorizontal: 32, marginTop: 10, height: 150}}>
-                <Image source={{uri: image}} style={{width: 300, height: 300}}></Image>
-            </View>
+                    <View style={{ marginTop: 10, height: '100%', width: '100%', marginHorizontal: 13}}>
+                        <Image source={{uri: image}} style={{width: 300, height: 300, borderRadius: 10}}></Image>
+                    </View>
+                </View>
+            </ScrollView>
+
+
+            
         </SafeAreaView>
     )
 }
@@ -170,8 +209,9 @@ const styles = StyleSheet.create({
         borderBottomColor: '#d8d9db'
     },
     inputContainer: {
-        margin: 32,
+        marginTop: 32,
         flexDirection: 'column',
+        marginHorizontal: 32,
     },
     textInput: {
         height: 40,
@@ -195,7 +235,7 @@ const styles = StyleSheet.create({
     },
     photo: {
         alignItems: 'flex-end',
-        marginHorizontal: 32,
+        marginHorizontal: 10,
     }
 
 })
