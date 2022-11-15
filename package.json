@@ -1,0 +1,43 @@
+{
+  "name": "petworld",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@expo-google-fonts/inter": "^0.2.2",
+    "@expo/vector-icons": "^13.0.0",
+    "@expo/webpack-config": "^0.16.19",
+    "@react-native-community/masked-view": "^0.1.11",
+    "@react-navigation/bottom-tabs": "^6.4.0",
+    "@react-navigation/drawer": "^6.5.0",
+    "@react-navigation/native": "^6.0.13",
+    "@react-navigation/native-stack": "^6.9.1",
+    "dotenv": "^16.0.3",
+    "expo": "~46.0.16",
+    "expo-constants": "~13.2.4",
+    "expo-font": "~10.2.0",
+    "expo-image-picker": "~13.3.1",
+    "expo-permissions": "^14.0.0",
+    "expo-status-bar": "~1.4.0",
+    "firebase": "^8.2.3",
+    "react": "18.0.0",
+    "react-dom": "18.0.0",
+    "react-native": "0.69.6",
+    "react-native-gesture-handler": "^2.8.0",
+    "react-native-gifted-chat": "^1.0.4",
+    "react-native-reanimated": "^2.12.0",
+    "react-native-safe-area-context": "4.3.1",
+    "react-native-screens": "~3.15.0",
+    "react-native-web": "~0.18.7",
+    "react-navigation-header-buttons": "^10.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9"
+  },
+  "private": true
+}
