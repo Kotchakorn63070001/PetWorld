@@ -27,6 +27,9 @@ const CreateFindHomeScreen = () => {
     const [type, setType] = useState('');
     const [isDog, setIsDog] = React.useState(true);
     const [isCat, setIsCat] = React.useState(false);
+    const [sex, setSex] = useState('');
+    const [isMale, setIsMale] = React.useState(true);
+    const [isFemale, setIsFemale] = React.useState(false);
     useEffect(() => {
         getPhotoPermission();
         if (isDog == true){
@@ -35,6 +38,12 @@ const CreateFindHomeScreen = () => {
         }else{
             setType('แมว')
             // console.log(type)
+        }
+        if(isMale == true){
+            setSex('ผู้')
+        }
+        else{
+            setSex('เมีย')
         }
         // console.log('---------------------------หมาหรือแมว : '+type+'----------------------')
       });
@@ -91,22 +100,7 @@ const CreateFindHomeScreen = () => {
         )
 
     }
-    // const cameraPermission = async ()=> {
-    //     if(Platform.OS !== 'web'){
-    //         const {status} = await ImagePicker
-    //         .requestCameraPermissionsAsync();
-    //         if(status !== 'granted'){
-    //             Alert.alert(
-    //                 'Permission required',
-    //                 'Sorry , need camera permissions.',
-    //                 [{text:'Close'}]
-    //             );
-    //             return false;
-    //         }
-    //         return true;
-    //     }
-
-    // }
+  
 
    
     const namePetValidator = () =>{
@@ -155,6 +149,7 @@ const CreateFindHomeScreen = () => {
             namePet: namePet.trim(),
             petType: type,
             breed: breed.trim(),
+            sex: sex,
             detail: detail.trim(),
             localUri: image,
             timestamp: Date.now(),
@@ -162,11 +157,7 @@ const CreateFindHomeScreen = () => {
         })
         .then((docRef) => {
            
-            // setNamePet('');
-            // setType(''),
-            // setBreed(''),
-            // setDetail(''),
-            // setImage(null);
+            
             console.log("Document written with ID: ", docRef.id);
             navigation.goBack();
         })
@@ -224,6 +215,24 @@ const CreateFindHomeScreen = () => {
                     value={breed}>
                 </TextInput>   
                 <Text style={{color:'red',size:16,}}>{breedError}</Text>
+
+
+                <Text style={styles.label}>เพศ:</Text>
+                    <View style={{marginVertical: 12, marginLeft: 10}}>
+                        <Pressable style={{flexDirection: 'row', padding: 5, alignItems: 'center'}}
+                              onPress={() => {setIsMale(isMale => !isMale); setIsFemale(isFemale=> !isFemale) } }>
+                            {isMale ? <Ionicons name="radio-button-on-outline" size={24} color="black" />
+                                   : <Ionicons name="radio-button-off-outline" size={24} color="black" />}
+                            <Text style={{fontSize: 15}}> ผู้</Text>
+                        </Pressable>
+                        <Pressable style={{flexDirection: 'row', padding: 5, alignItems: 'center'}}
+                            onPress={() => {setIsFemale(isFemale=>!isFemale); setIsMale(isMale=>!isMale)}}>
+                            {isFemale ? <Ionicons name="radio-button-on-outline" size={24} color="black" />
+                                   : <Ionicons name="radio-button-off-outline" size={24} color="black" />}
+                            <Text style={{fontSize: 15}}> เมีย</Text>
+                        </Pressable>
+                    </View>
+                    
         <Text style={styles.label}>รายละเอียดเพิ่มเติม : </Text>
                 <TextInput 
                     multiline={true} 
