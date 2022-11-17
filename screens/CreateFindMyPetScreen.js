@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, TextInput, Alert, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, Image, TextInput, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Ionicons, MaterialIcons} from '@expo/vector-icons'
 import Constants from 'expo-constants'
@@ -10,45 +10,105 @@ import { auth } from '../firebase'
 import { db } from '../firebase'
 import firebase from 'firebase'
 
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 
 const CreateFindMyPetScreen = () => {
     const navigation = useNavigation();
 
     const [namePet, setNamePet] = useState('');
+    const [namePetError,setNamePetError] = useState('');
     const [breed, setBreed] = useState('');
+    const [breedError,setBreedError] = useState('');
     const [location, setLocation] = useState('');
+    const [locationError, setLocationError] = useState('');
     const [detail, setDetail] = useState('');
+    const [detailError, setDetailError] = useState('');
     const [image, setImage] = useState(null);
-    const [imagePick, setImagePick] = useState(null);
-    const [uploading, setUploading] = useState(false);
+    // const [imagePick, setImagePick] = useState(null);
+    // const [uploading, setUploading] = useState(false);
     const [type, setType] = useState('');
     const [isDog, setIsDog] = React.useState(true);
-    const [isCat, setIsCat] = React.useState(false)
+    const [isCat, setIsCat] = React.useState(false);
 
     useEffect(() => {
         getPhotoPermission();
         if (isDog == true){
             setType('หมา')
-            console.log(type)
+            // console.log(type)
         }else{
             setType('แมว')
-            console.log(type)
+            // console.log(type)
         }
-        console.log('---------------------------หมาหรือแมว : '+type+'----------------------')
+        // console.log('---------------------------หมาหรือแมว : '+type+'----------------------')
       });
 
     const getPhotoPermission = async () => {
-        if (Constants.platform.ios) {
-            const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
-            if (status != 'granted'){
-                alert("We need permission to access your camera roll");
-            }
+        // if (Constants.platform.ios) {
+        //     const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+        //     if (status != 'granted'){
+        //         alert("We need permission to access your camera roll");
+        //     }
+        // }
+        const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status != 'granted'){
+            alert("We need permission to access your camera roll");
+        }
+    }
+
+    const namePetValidator = () =>{
+        if(namePet==""){
+            setNamePetError("กรุณาใส่ชื่อ")
+        }
+        else{
+            setNamePetError('')
+        }
+        
+    }
+    const breedValidator =() => {
+        if(breed==""){
+            setBreedError('กรุณาใส่พันธุ์')
+        }
+        else {
+            setBreedError('')
+        }
+    }
+    const locationValidator = () => {
+        if (location == ''){
+            setLocationError('กรุณาใส่สถานที่พบล่าสุด')
+        }
+        else{
+            setLocationError('')
+        }
+    }
+    const detailValidator =()=>{
+        
+        if(detail==""){
+            setDetailError("กรุณาใส่รายละเอียด")
+        }
+        else{   
+            setDetailError('')
         }
     }
 
     const handlePost = () => {
-       
         console.log('-----------------handlePost----------------------')
+        if(namePet==""){
+            setNamePetError("กรุณาใส่ชื่อ")
+        }
+        else if(breed==""){
+            setBreedError('กรุณาใส่พันธุ์')
+        }
+        else if (location==""){
+            setLocationError('กรุณาใส่สถานที่พบล่าสุด')
+        }
+        else if(detail==""){
+            setDetailError("กรุณาใส่รายละเอียด")
+        }
+        else{
+            setNamePetError('')
+            setBreedError('')
+            setDetailError('')
+        }
         db.collection('postFindMyPets').add({
             namePet: namePet.trim(),
             petType: type,
@@ -60,12 +120,12 @@ const CreateFindMyPetScreen = () => {
             uid: auth.currentUser?.uid
         })
         .then((docRef) => {
-            setNamePet('');
-            setType('');
-            setBreed('');
-            setLocation('');
-            setDetail('');
-            setImage(null);
+            // setNamePet('');
+            // setType('');
+            // setBreed('');
+            // setLocation('');
+            // setDetail('');
+            // setImage(null);
             console.log("Document written with ID: ", docRef.id);
             navigation.goBack();
         })
@@ -93,7 +153,7 @@ const CreateFindMyPetScreen = () => {
     }
 
     const uploadImage = async (uri) => {
-        setUploading(true)
+        // setUploading(true)
         const response = await fetch(uri)
         const blob = await response.blob();
         const path = `photos/${auth.currentUser?.uid}/${Date.now()}.jpg`
@@ -116,79 +176,126 @@ const CreateFindMyPetScreen = () => {
 
     }
 
+    // const setDog = (dog, cat) => {
+    //     console.log('----ก่อนเซตค่า---หมา: ',dog)
+    //     setIsDog(!dog);
+    //     setIsCat(!cat);
+    //     console.log('หมาเป็นtrue: ', isDog)
+    //     console.log('แมวเป็นfalse: ', isCat)
+    // }
+    // useEffect(() => {
+    //     if (isDog == true){
+    //         setType('หมา')
+    //     }else{
+    //         setType('แมว')
+    //     }
+    // }, [isDog])
+    
+    // const setCat = (cat, dog) => {
+    //     console.log('----ก่อนเซตค่า---แมว: ',cat)
+    //     setIsCat(!cat);
+    //     setIsDog(!dog);
+    //     console.log('หมาเป็นfalse: ', isDog)
+    //     console.log('แมวเป็นtrue: ', isCat)
+    // }
+
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Pressable onPress={() => navigation.goBack()}>
                     <Ionicons name="md-arrow-back" size={24} color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={handlePost} style={{borderRadius: 15, backgroundColor: "#f57c00", padding: 2, width: 55, alignItems: 'center'}}>
+                </Pressable>
+                <Pressable 
+                    onPress={handlePost} 
+                    style={{
+                        borderRadius: 15,
+                        backgroundColor: "#f57c00",
+                        shadowColor: '#f57c00',
+                        shadowOffset: {
+                            width: 0,
+                            height: 2,
+                        },
+                        shadowOpacity: .4,
+                        shadowRadius: 8,
+                        padding: 2,
+                        width: 55,
+                        alignItems: 'center'
+                    }}>
                     <Text style={{fontWeight: '500', fontSize: 16, color: 'white'}}>โพสต์</Text>
-                </TouchableOpacity>
-                
+                </Pressable>
             </View>
-            
+
             <ScrollView>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>ชื่อสัตว์เลี้ยง :</Text>
-                     <TextInput 
-                        style={styles.textInput}
-                        onChangeText={text => setNamePet(text)}
-                        value={namePet}>
-                    </TextInput>
-                    <Text style={styles.label}>ประเภทสัตว์เลี้ยง :</Text>
-                    <View style={{marginVertical: 12, marginLeft: 10}}>
-                        <TouchableOpacity style={{flexDirection: 'row', padding: 5, alignItems: 'center'}}
-                              onPress={() => {setIsDog(isDog => !isDog); setIsCat(isCat=> !isCat) } }>
-                            {isDog ? <Ionicons name="radio-button-on-outline" size={24} color="black" />
-                                   : <Ionicons name="radio-button-off-outline" size={24} color="black" />}
-                            <Text style={{fontSize: 15}}> หมา</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{flexDirection: 'row', padding: 5, alignItems: 'center'}}
-                            onPress={() => {setIsCat(isCat=>!isCat); setIsDog(isDog=>!isDog)}}>
-                            {isCat ? <Ionicons name="radio-button-on-outline" size={24} color="black" />
-                                   : <Ionicons name="radio-button-off-outline" size={24} color="black" />}
-                            <Text style={{fontSize: 15}}> แมว</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <Text style={styles.label}>พันธุ์สัตว์เลี้ยง :</Text>
-                    <TextInput 
-                        style={styles.textInput}
-                        onChangeText={text => setBreed(text)}
-                        value={breed}
-                        >
-                    </TextInput>
-                    <Text style={styles.label}>สถานที่พบล่าสุด :</Text>
-                    <TextInput
-                        style={styles.textInput}
-                        onChangeText={text => setLocation(text)}
-                        value={location}>
-                    </TextInput>
-                    <Text style={styles.label}>รายละเอียดเพิ่มเติม :</Text>
-                    <TextInput 
-                        autoFocus={true} 
-                        multiline={true} 
-                        numberOfLines={4} 
-                        style={styles.textInputMultiline}
-                        onChangeText={text => setDetail(text)}
-                        value={detail}>
-                    </TextInput>
-
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                        <Text style={styles.label}>รูปภาพสัตว์เลี้ยงของคุณ :</Text>
-                        <TouchableOpacity style={styles.photo} onPress={pickImage}>
-                            <MaterialIcons name="add-photo-alternate" size={32} color="#d8d9db" />
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={{ marginTop: 10, height: '100%', width: '100%', marginHorizontal: 13}}>
-                        <Image source={{uri: image}} style={{width: 300, height: 300, borderRadius: 10}}></Image>
-                    </View>
+            <View style={styles.inputContainer}>
+                <Text style={styles.label}>ชื่อสัตว์เลี้ยง :</Text>
+                <TextInput 
+                    style={styles.textInput}
+                    placeholder="หากไม่มีกรุณาใส่ - "
+                    // autoFocus={true} 
+                    onBlur={()=>namePetValidator()}
+                    onChangeText={text => setNamePet(text)}
+                    value={namePet}>
+                </TextInput>
+                <Text style={{color:'red',size:16,}}>{namePetError}</Text>
+                <Text style={styles.label}>ประเภทสัตว์เลี้ยง :</Text>
+                <View style={{marginVertical: 12, marginLeft: 10}}>
+                    <Pressable style={{flexDirection: 'row', padding: 5, alignItems: 'center'}}
+                        onPress={() => {setIsDog(isDog => !isDog); setIsCat(isCat=> !isCat) } }>
+                        {isDog ? <Ionicons name="radio-button-on-outline" size={24} color="black" />
+                               : <Ionicons name="radio-button-off-outline" size={24} color="black" />}
+                        <Text style={{fontSize: 15}}> หมา</Text>
+                    </Pressable>
+                    <Pressable style={{flexDirection: 'row', padding: 5, alignItems: 'center'}}
+                        onPress={() => {setIsCat(isCat=>!isCat); setIsDog(isDog=>!isDog)}}>
+                        {isCat ? <Ionicons name="radio-button-on-outline" size={24} color="black" />
+                               : <Ionicons name="radio-button-off-outline" size={24} color="black" />}
+                        <Text style={{fontSize: 15}}> แมว</Text>
+                    </Pressable>
                 </View>
+                <Text style={styles.label}>พันธุ์สัตว์เลี้ยง :</Text>
+                <TextInput 
+                    style={styles.textInput}
+                    placeholder="หากไม่ทราบกรุณาใส่ - "
+                    onBlur={()=>breedValidator()}
+                    onChangeText={text => setBreed(text)}
+                    value={breed}>
+                </TextInput>
+                <Text style={{color:'red',size:16,}}>{breedError}</Text>
+                <Text style={styles.label}>สถานที่พบล่าสุด :</Text>
+                <TextInput
+                    style={styles.textInput}
+                    placeholder="หากไม่ทราบกรุณาใส่ - "
+                    onBlur={() => locationValidator()}
+                    onChangeText={text => setLocation(text)}
+                    value={location}>
+                </TextInput>
+                <Text style={{color:'red',size:16,}}>{locationError}</Text>
+                <Text style={styles.label}>รายละเอียดเพิ่มเติม :</Text>
+                <TextInput 
+                    // autoFocus={true} 
+                    multiline={true} 
+                    numberOfLines={4} 
+                    style={styles.textInputMultiline}
+                    placeholder="เช่น ลักษณะภายนอก ปลอกคอ ป้ายชื่อ "
+                    onBlur={()=>detailValidator()}
+                    onChangeText={text => setDetail(text)}
+                    value={detail}>
+                </TextInput>
+                <Text style={{color:'red',size:16,}}>{detailError}</Text>
+
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <Text style={styles.label}>รูปภาพสัตว์เลี้ยงของคุณ :</Text>
+                    <Pressable style={styles.photo} onPress={pickImage}>
+                        <MaterialIcons name="add-photo-alternate" size={32} color="#d8d9db" />
+                    </Pressable>
+                </View>
+        
+                <View style={{marginHorizontal: 13, marginTop: 10, height: 150}}>
+                    <Image source={{uri: image}} style={{width: 300, height: 300, borderRadius: 5}}></Image>
+                </View>
+            </View>
             </ScrollView>
-
-
             
         </SafeAreaView>
     )
@@ -237,5 +344,4 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         marginHorizontal: 10,
     }
-
 })

@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import MainNavigator from '../PetWorld/navigation/MainNavigator';
+import MainNavigator from '../PetWorldNew/navigation/MainNavigator';
 
 export default function App() {
 

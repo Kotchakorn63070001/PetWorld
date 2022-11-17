@@ -1,7 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react"; 
 import { Button, StyleSheet, Text, View, Image, ScrollView } from 'react-native';
-import { TouchableOpacity } from "react-native";
+// import { TouchableOpacity } from "react-native-gesture-handler";
+import { Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import CreateFindMyPetScreen from "./CreateFindMyPetScreen";
 import CustomButton from "../components/CustomButton";
@@ -35,7 +36,7 @@ const FindMyPetScreen = () => {
           setPostsFindMyPet(posts) 
         }
       )
-    }, );
+    }, []);
 
     const getPost = () => {
       console.log(postsFindMyPet)
@@ -43,35 +44,35 @@ const FindMyPetScreen = () => {
 
     return(
       <View style={styles.container}>
-        {/* <TouchableOpacity onPress={getPost}>
+        {/* <Pressable onPress={getPost}>
           <Text>Get post</Text>
-        </TouchableOpacity> */}
+        </Pressable> */}
         <ScrollView>
-          <>
-            {postsFindMyPet.map((post, index) => {
+          <View>
+            {postsFindMyPet.map((post) => {
               return(
-                <View style={styles.postItem}>
+                <View style={styles.postItem} key={post.id}>
                   <Image source={{uri: post.localUri}} style={styles.picPet}/>
                   <View style={{flex: 1}}>
                     <View style={{flexDirection: 'col', justifyContent: 'space-between', alignItems: 'flex-start',}}>
                       <Text style={styles.title}>ตามหา{post.petType}หาย</Text>
                       <Text style={styles.text}><Text style={{fontWeight: '500'}}>ชื่อ :</Text> {post.namePet}</Text>
-                      <Text style={styles.text}>พันธุ์ : {post.breed}</Text>
-                      <Text style={styles.text}>รายละเอียด : {post.detail}</Text>
-                      <Text style={styles.text}>สถานที่พบล่าสุด : {post.location}</Text>
+                      <Text style={styles.text}><Text style={{fontWeight: '500'}}>พันธุ์ :</Text> {post.breed}</Text>
+                      <Text style={styles.text}><Text style={{fontWeight: '500'}}>รายละเอียด :</Text> {post.detail}</Text>
+                      <Text style={styles.text}><Text style={{fontWeight: '500'}}>สถานที่พบล่าสุด :</Text> {post.location}</Text>
                      </View>
                   </View>
                 </View>
-              )
+              );
             })}
-          </>
+          </View>
         </ScrollView>
         
         <View style={styles.bottomRight}>
-          <TouchableOpacity
+          <Pressable
             style={styles.btnAddPost}>
             <Ionicons name="add-circle" size={50} color="#f57c00" onPress={() => {navigation.navigate('CreateFindMyPet')}}/>
-          </TouchableOpacity>
+          </Pressable>
         </View>
         
         {/* <Text>This is FindMyPetScreen</Text>
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
   },
   postItem: {
     backgroundColor: 'skyblue',
-    borderRadius: 5,
+    borderRadius: 10,
     padding: 8,
     flexDirection: 'row',
     marginVertical: 8,
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
   picPet:{
     width: 150,
     height: 180,
-    borderRadius: 18,
+    borderRadius: 10,
     marginRight: 16
   },
   item: {

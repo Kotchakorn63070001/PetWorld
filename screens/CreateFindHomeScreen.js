@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, TextInput ,Platform,Alert,ScrollView} from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, TextInput ,Platform,Alert,ScrollView, Pressable} from 'react-native'
 import React, { useEffect, useState } from 'react'
 // import React from 'react'
 import { Ionicons,MaterialIcons } from '@expo/vector-icons'
@@ -23,7 +23,7 @@ const CreateFindHomeScreen = () => {
     const [detail,setDetail] = useState('');
     const [detailError, setDetailError] = useState('');
     const [image, setImage] = useState(null);
-    const [uploading, setUploading] = useState(false);
+    // const [uploading, setUploading] = useState(false);
     const [type, setType] = useState('');
     const [isDog, setIsDog] = React.useState(true);
     const [isCat, setIsCat] = React.useState(false);
@@ -31,20 +31,24 @@ const CreateFindHomeScreen = () => {
         getPhotoPermission();
         if (isDog == true){
             setType('หมา')
-            console.log(type)
+            // console.log(type)
         }else{
             setType('แมว')
-            console.log(type)
+            // console.log(type)
         }
-        console.log('---------------------------หมาหรือแมว : '+type+'----------------------')
+        // console.log('---------------------------หมาหรือแมว : '+type+'----------------------')
       });
 
-    const getPhotoPermission = async () => {
-        if (Constants.platform.ios) {
-            const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
-            if (status != 'granted'){
-                alert("We need permission to access your camera roll");
-            }
+      const getPhotoPermission = async () => {
+        // if (Constants.platform.ios) {
+        //     const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+        //     if (status != 'granted'){
+        //         alert("We need permission to access your camera roll");
+        //     }
+        // }
+        const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status != 'granted'){
+            alert("We need permission to access your camera roll");
         }
     }
     const pickImage = async () => {
@@ -65,7 +69,7 @@ const CreateFindHomeScreen = () => {
         }
     }
     const uploadImage = async (uri) => {
-        setUploading(true)
+        // setUploading(true)
         const response = await fetch(uri)
         const blob = await response.blob();
         const path = `photos/${auth.currentUser?.uid}/${Date.now()}.jpg`
@@ -158,11 +162,11 @@ const CreateFindHomeScreen = () => {
         })
         .then((docRef) => {
            
-            setNamePet('');
-            setType(''),
-            setBreed(''),
-            setDetail(''),
-            setImage(null);
+            // setNamePet('');
+            // setType(''),
+            // setBreed(''),
+            // setDetail(''),
+            // setImage(null);
             console.log("Document written with ID: ", docRef.id);
             navigation.goBack();
         })
@@ -174,12 +178,12 @@ const CreateFindHomeScreen = () => {
     return(
         <SafeAreaView style={styles.container}>
         <View style={styles.header}>
-            <TouchableOpacity onPress={() => navigation.goBack()} >
+            <Pressable onPress={() => navigation.goBack()} >
                 <Ionicons name="md-arrow-back" size={24} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handlePost}  style={{borderRadius: 15, backgroundColor: "#f57c00", padding: 2, width: 55, alignItems: 'center'}}>
+            </Pressable>
+            <Pressable onPress={handlePost}  style={{borderRadius: 15, backgroundColor: "#f57c00", padding: 2, width: 55, alignItems: 'center'}}>
                 <Text style={{fontWeight: '500',fontSize: 16, color: 'white'}}>Post</Text>
-            </TouchableOpacity>
+            </Pressable>
         </View >
 
         <ScrollView>
@@ -196,18 +200,18 @@ const CreateFindHomeScreen = () => {
                 <Text style={{color:'red',size:16,}}>{namePetError}</Text>
                 <Text style={styles.label}>ประเภทสัตว์เลี้ยง :</Text>
                     <View style={{marginVertical: 12, marginLeft: 10}}>
-                        <TouchableOpacity style={{flexDirection: 'row', padding: 5, alignItems: 'center'}}
+                        <Pressable style={{flexDirection: 'row', padding: 5, alignItems: 'center'}}
                               onPress={() => {setIsDog(isDog => !isDog); setIsCat(isCat=> !isCat) } }>
                             {isDog ? <Ionicons name="radio-button-on-outline" size={24} color="black" />
                                    : <Ionicons name="radio-button-off-outline" size={24} color="black" />}
                             <Text style={{fontSize: 15}}> หมา</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{flexDirection: 'row', padding: 5, alignItems: 'center'}}
+                        </Pressable>
+                        <Pressable style={{flexDirection: 'row', padding: 5, alignItems: 'center'}}
                             onPress={() => {setIsCat(isCat=>!isCat); setIsDog(isDog=>!isDog)}}>
                             {isCat ? <Ionicons name="radio-button-on-outline" size={24} color="black" />
                                    : <Ionicons name="radio-button-off-outline" size={24} color="black" />}
                             <Text style={{fontSize: 15}}> แมว</Text>
-                        </TouchableOpacity>
+                        </Pressable>
                     </View>
 
 
@@ -235,9 +239,9 @@ const CreateFindHomeScreen = () => {
           
  <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                         <Text style={styles.label}>รูปภาพสัตว์เลี้ยงของคุณ :</Text>
-                        <TouchableOpacity style={styles.photo} onPress={pickImage}>
+                        <Pressable style={styles.photo} onPress={pickImage}>
                             <MaterialIcons name="add-photo-alternate" size={32} color="#d8d9db" />
-                        </TouchableOpacity>
+                        </Pressable>
                     </View>
           
 

@@ -24,6 +24,7 @@ import CreateDiscussProblemScreen from "../screens/CreateDiscussProblemScreen";
 import CreateFindHomeScreen from "../screens/CreateFindHomeScreen";
 import { auth } from "../firebase";
 
+
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();

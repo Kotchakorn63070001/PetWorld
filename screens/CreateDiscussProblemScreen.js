@@ -22,12 +22,16 @@ const CreateDiscussProblemScreen = () => {
         getPhotoPermission();
       });
 
-    const getPhotoPermission = async () => {
-        if (Constants.platform.ios) {
-            const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
-            if (status != 'granted'){
-                alert("We need permission to access your camera roll");
-            }
+      const getPhotoPermission = async () => {
+        // if (Constants.platform.ios) {
+        //     const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+        //     if (status != 'granted'){
+        //         alert("We need permission to access your camera roll");
+        //     }
+        // }
+        const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status != 'granted'){
+            alert("We need permission to access your camera roll");
         }
     }
     const handlePost = () => {
