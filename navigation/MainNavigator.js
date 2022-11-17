@@ -19,6 +19,8 @@ import ReminderScreen from "../screens/ReminderScreen";
 import SignInScreen from "../screens/SignInScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import CreateFindMyPetScreen from "../screens/CreateFindMyPetScreen";
+// import EditFindMyPostScreen from "../screens/EditFindMyPostScreen";
+// import EditFindMyPost from "../screens/EditFindMyPost";
 import CustomHeaderButton from "../components/CustomHeaderButton";
 import CreateDiscussProblemScreen from "../screens/CreateDiscussProblemScreen";
 import CreateFindHomeScreen from "../screens/CreateFindHomeScreen";
@@ -100,6 +102,8 @@ function MyStack(){
             <Stack.Screen name="SignIn" component={SignInScreen}/>
             <Stack.Screen name="SignUp" component={SignUpScreen}/>
             <Stack.Screen name="CreateFindMyPet" component={CreateFindMyPetScreen}/>
+            {/* <Stack.Screen name="EditFindMyPost" component={EditFindMyPostScreen}/> */}
+            {/* <Stack.Screen name="EditFindMyPost" component={EditFindMyPost}/> */}
             <Stack.Screen name="CreateDiscussProblem" component={CreateDiscussProblemScreen}/>
             <Stack.Screen name="CreateFindHome" component={CreateFindHomeScreen} />
             <Stack.Screen name="AllTab" component={MyBottomTab}/>

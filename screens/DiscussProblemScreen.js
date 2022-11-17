@@ -67,7 +67,7 @@ const DiscussProblemScreen = () => {
         <View style={styles.bottomRight}>
           <Pressable
             style={styles.btnAddPost}>
-            <Ionicons name="add-circle" size={50} color="#f57c00" onPress={() => {navigation.navigate('CreateDiscussProblem')}}/>
+            <Ionicons name="add-circle" size={55} color="#FF587C" onPress={() => {navigation.navigate('CreateFindMyPet')}}/>
           </Pressable>
         </View>
         
@@ -98,11 +98,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   btnAddPost: {
-    height: 50,
+    height: 55,
     width: 50,
     marginRight: 15,
     marginBottom: 15,
-    shadowColor: '#f57c00',
+    shadowColor: '#FF587C',
     shadowOffset: {
       width: 0,
       height: 2,

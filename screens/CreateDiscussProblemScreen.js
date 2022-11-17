@@ -17,7 +17,6 @@ const CreateDiscussProblemScreen = () => {
     // const [title, setTitle] = useState('');
     const [detaildiscuss, setDetailDiscuss] = useState('');
     const [image, setImage] = useState(null);
-    const [uploading, setUploading] = useState(false);
     const [type, setType] = useState('');
     const [isDog, setIsDog] = React.useState(true);
     const [isCat, setIsCat] = React.useState(false);
@@ -25,12 +24,12 @@ const CreateDiscussProblemScreen = () => {
         getPhotoPermission();
         if (isDog == true){
             setType('หมา')
-            console.log(type)
+            // console.log(type)
         }else{
             setType('แมว')
-            console.log(type)
+            // console.log(type)
         }
-        console.log('---------------------------หมาหรือแมว : '+type+'----------------------')
+        // console.log('---------------------------หมาหรือแมว : '+type+'----------------------')
       });
 
       const getPhotoPermission = async () => {
@@ -84,7 +83,6 @@ const CreateDiscussProblemScreen = () => {
     }
 
     const uploadImage = async (uri) => {
-        setUploading(true)
         const response = await fetch(uri)
         const blob = await response.blob();
         const path = `photos/${auth.currentUser?.uid}/${Date.now()}.jpg`

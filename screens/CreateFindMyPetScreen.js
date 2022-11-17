@@ -40,7 +40,7 @@ const CreateFindMyPetScreen = () => {
             // console.log(type)
         }
         // console.log('---------------------------หมาหรือแมว : '+type+'----------------------')
-      });
+    });
 
     const getPhotoPermission = async () => {
         // if (Constants.platform.ios) {
