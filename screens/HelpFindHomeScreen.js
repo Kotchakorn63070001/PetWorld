@@ -10,7 +10,7 @@ import { auth , db } from "../firebase";
 import { useState, useEffect } from "react";
 
 
-const FindMyPetScreen = () => {
+const HelpFindHomeScreen = () => {
     const navigation = useNavigation();
     const [postsFindHome, setPostsFindHome] = useState([]);
     
@@ -145,4 +145,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default FindMyPetScreen;
+export default HelpFindHomeScreen;
