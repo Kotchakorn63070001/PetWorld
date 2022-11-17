@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, TextInput } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, TextInput,ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 // import React from 'react'
 import { Ionicons,MaterialIcons } from '@expo/vector-icons'
@@ -18,8 +18,19 @@ const CreateDiscussProblemScreen = () => {
     const [detaildiscuss, setDetailDiscuss] = useState('');
     const [image, setImage] = useState(null);
     const [uploading, setUploading] = useState(false);
+    const [type, setType] = useState('');
+    const [isDog, setIsDog] = React.useState(true);
+    const [isCat, setIsCat] = React.useState(false);
     useEffect(() => {
         getPhotoPermission();
+        if (isDog == true){
+            setType('หมา')
+            console.log(type)
+        }else{
+            setType('แมว')
+            console.log(type)
+        }
+        console.log('---------------------------หมาหรือแมว : '+type+'----------------------')
       });
 
       const getPhotoPermission = async () => {
@@ -36,14 +47,14 @@ const CreateDiscussProblemScreen = () => {
     }
     const handlePost = () => {
         db.collection('postDiscussProblem').add({
-            // title: title.trim(),
+            petType: type,
             detaildiscuss: detaildiscuss.trim(),
             localUri: image,
             timestamp: Date.now(),
             uid: auth.currentUser?.uid
         })
         .then((docRef) => {
-            // setTitle('');
+            setType('');
             setDetailDiscuss('');
             setImage(null);
             console.log("Document written with ID: ", docRef.id);
@@ -109,8 +120,7 @@ const CreateDiscussProblemScreen = () => {
 
 
         
-
-
+    <ScrollView>
         <View style={styles.inputContainer}>
             <Image source={require("../assets/avatar.png")} style={styles.avatar}></Image>
             <TextInput autoFocus={true} 
@@ -121,15 +131,37 @@ const CreateDiscussProblemScreen = () => {
             onChangeText={text => setDetailDiscuss(text)}
             value={detaildiscuss}></TextInput>
         </View>
-
-        <TouchableOpacity style={styles.photo} onPress={pickImage}>
-                <MaterialIcons name="add-photo-alternate" size={40} color="#d8d9db" />
-            </TouchableOpacity>
         
-            <View style={{marginHorizontal: 32, marginTop: 10, height: 150}}>
-                <Image source={{uri: image}} style={{width: 300, height: 300}}></Image>
+    <View style={styles.inputContainer1}>
+        <Text style={styles.label}>ประเภทสัตว์เลี้ยง :</Text>
+                    <View style={{marginVertical: 12, marginLeft: 10}}>
+                        <TouchableOpacity style={{flexDirection: 'row', padding: 5, alignItems: 'center'}}
+                              onPress={() => {setIsDog(isDog => !isDog); setIsCat(isCat=> !isCat) } }>
+                            {isDog ? <Ionicons name="radio-button-on-outline" size={24} color="black" />
+                                   : <Ionicons name="radio-button-off-outline" size={24} color="black" />}
+                            <Text style={{fontSize: 15}}> หมา</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{flexDirection: 'row', padding: 5, alignItems: 'center'}}
+                            onPress={() => {setIsCat(isCat=>!isCat); setIsDog(isDog=>!isDog)}}>
+                            {isCat ? <Ionicons name="radio-button-on-outline" size={24} color="black" />
+                                   : <Ionicons name="radio-button-off-outline" size={24} color="black" />}
+                            <Text style={{fontSize: 15}}> แมว</Text>
+                        </TouchableOpacity>
+                    </View>
+
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                        <Text style={styles.label}>รูปภาพของคุณ :</Text>
+                        <TouchableOpacity style={styles.photo} onPress={pickImage}>
+                            <MaterialIcons name="add-photo-alternate" size={32} color="#d8d9db" />
+                        </TouchableOpacity>
+                    </View>
+          
+
+            <View style={{ marginTop: 10, height: '100%', width: '100%', marginHorizontal: 13}}>
+                <Image source={{uri: image}} style={{width: 300, height: 300,borderRadius: 10}}></Image>
             </View>
-        {/* <Text>Post Screen</Text> */}
+        </View>
+        </ScrollView>
     </SafeAreaView>
   )
 }
@@ -171,4 +203,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: '#d8d9db',
     },
+    inputContainer1: {
+        marginTop:-20,
+        marginLeft:42,
+        flexDirection: 'column',
+    }
 })
