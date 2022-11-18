@@ -136,7 +136,7 @@ const FindMyPetScreen = () => {
         <View style={styles.searchContainer}>
           <GooglePlacesAutocomplete
             styles={{textInput: styles.input}}
-            placeholder='Search'
+            placeholder='ค้นหาโรงพยาบาลสัตว์'
             fetchDetails={true}
             GooglePlacesSearchQuery={{
               rankby: 'distance'
