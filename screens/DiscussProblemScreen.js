@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react"; 
-import { Button, StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { Button, StyleSheet, Text, View, Image, ScrollView,Alert } from 'react-native';
 // import { TouchableOpacity } from "react-native-gesture-handler";
 import { Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -31,15 +31,38 @@ const DiscussProblemScreen = () => {
               uid
             })
           })
-          // setPostsFindHome(posts) 
+          
           setPostsDiscussProblem(posts)
         }
       )
     }, []);
 
-    const getPost = () => {
-      // console.log(postsFindHome)
-      console.log(postsDiscussProblem)
+
+    const deletePost = (postId) => {
+      console.log('postId : ', postId)
+      Alert.alert(
+        "ลบโพสต์",
+        "คุณแน่ใจหรือว่าต้องการลบโพสต์นี้?",
+        [
+          {
+            text: 'ยกเลิก',
+            onPress: () => console.log("cancel delete post")
+          },
+          {
+            text: 'ลบ',
+            onPress: () => {
+              db.collection('postDiscussProblem')
+              .doc(postId)
+              .delete()
+              .then((res) => {
+                console.log("The post was deleted!! Pls check your DB!!")
+              })
+            },
+          }
+        ]
+      )
+      
+      
     }
 
     return(
@@ -50,12 +73,32 @@ const DiscussProblemScreen = () => {
             {postsDiscussProblem.map((post) => {
               return(
                 <View style={styles.postItem} key={post.id}>
-                  <Image source={{uri: post.localUri}} style={styles.picPet}/>
+                 { post.localUri == null ? <Image source={require("../assets/logo.png")} style={styles.picPet}/> : <Image source={{uri: post.localUri}} style={styles.picPet}/>}
                   <View style={{flex: 1}}>
                     <View style={{flexDirection: 'col', justifyContent: 'space-between', alignItems: 'flex-start',}}>
-                      <Text style={styles.title}>ปรึกษาปัญหาน้อง{post.petType}</Text>
-                      
+                      <Text style={styles.title}>ปรึกษาปัญหาน้อง{post.petType}</Text>  
                       <Text style={styles.text}><Text style={{fontWeight: '500'}}>รายละเอียด :</Text> {post.detaildiscuss}</Text>
+                      <View style={{ flex: 1, flexDirection: 'row', marginTop: 5, alignSelf: 'flex-end', }}>
+                       
+                        {post.uid == auth.currentUser?.uid ?
+                          <Pressable style={styles.delete} onPress={() => deletePost(post.id)}>
+                            <Text style={styles.textBtn}>ลบ</Text>
+                          </Pressable>
+                          :
+                          <View></View>
+                        }
+
+                        {post.uid != auth.currentUser?.uid ?
+                          <Pressable style={styles.contact} >
+                            <Text style={styles.textBtn}>แสดงความคิดเห็น</Text>
+                          </Pressable>
+                        :
+                        <View></View>
+                        }
+
+                        
+                      </View>
+
                      </View>
                   </View>
                 </View>
@@ -67,17 +110,11 @@ const DiscussProblemScreen = () => {
         <View style={styles.bottomRight}>
           <Pressable
             style={styles.btnAddPost}>
-            <Ionicons name="add-circle" size={55} color="#FF587C" onPress={() => {navigation.navigate('CreateFindMyPet')}}/>
+            <Ionicons name="add-circle" size={55} color="#FF587C" onPress={() => {navigation.navigate('CreateDiscussProblem')}}/>
           </Pressable>
         </View>
         
-        {/* <Text>This is FindMyPetScreen</Text>
-        <Text>Email : { auth.currentUser?.email }</Text>
-        <Text>uid: { auth.currentUser?.uid } </Text> */}
-        {/* <CustomButton
-          text="Sign Out" 
-          onPress={handleSignOut}
-        /> */}
+        
       </View>
         
     );
@@ -136,16 +173,29 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 15,
+  },
+  delete: {
+    width: 50,
+    padding: 5,
+    borderRadius: 10,
+    marginTop: 8,
+    marginBottom: 0,
+    backgroundColor: '#FF8858',
+    marginHorizontal: 3
+  },
+  contact: {
+    backgroundColor: '#587CFF',
+    padding: 5,
+    borderRadius: 10,
+    marginTop: 8,
+    marginBottom: 0,
+  },
+  textBtn: {
+    color: 'white',
+    fontSize: 15,
+    fontWeight: '500',
+    textAlign: 'center'
   }
 });
 
 export default DiscussProblemScreen;
-
-
-
-
-
-
-
-
-
