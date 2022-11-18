@@ -26,6 +26,11 @@ import CreateDiscussProblemScreen from "../screens/CreateDiscussProblemScreen";
 import CreateFindHomeScreen from "../screens/CreateFindHomeScreen";
 import { auth } from "../firebase";
 
+{/* Parnn */}
+import CreatePetsScreen  from "../screens/CreatePetsScreen";
+import ProfileScreen from "../screens/ProfileScreen";
+// import EditProfileScreen from "../screens/EditProfileScreen";
+import EditPetScreen from "../screens/EditPetScreen";
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -106,6 +111,10 @@ function MyStack(){
             {/* <Stack.Screen name="EditFindMyPost" component={EditFindMyPost}/> */}
             <Stack.Screen name="CreateDiscussProblem" component={CreateDiscussProblemScreen}/>
             <Stack.Screen name="CreateFindHome" component={CreateFindHomeScreen} />
+             {/* Parnn */}
+            <Stack.Screen name="EditPet" component={EditPetScreen}/>
+            <Stack.Screen name="CreatePet" component={CreatePetsScreen}/>
+            {/* <Stack.Screen name="EditProfile" component={EditProfileScreen }/> */}
             <Stack.Screen name="AllTab" component={MyBottomTab}/>
         </Stack.Navigator>
     );
@@ -150,6 +159,8 @@ export default function MainNavigator(){
                     }
                 }>
                 <Drawer.Screen name="Home" component={MyStack}/>
+                {/* Parnn */}
+                <Drawer.Screen name="Profile" component={ProfileScreen}/>
             </Drawer.Navigator>
         //  </NavigationContainer>
     );
