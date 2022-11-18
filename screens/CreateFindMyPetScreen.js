@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, SafeAreaView, Image, TextInput, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Ionicons, MaterialIcons} from '@expo/vector-icons'
+import { Ionicons, MaterialIcons, FontAwesome5} from '@expo/vector-icons'
 import Constants from 'expo-constants'
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
@@ -23,6 +23,9 @@ const CreateFindMyPetScreen = () => {
     const [locationError, setLocationError] = useState('');
     const [detail, setDetail] = useState('');
     const [detailError, setDetailError] = useState('');
+    const [contactLine, setContactLine] = useState('');
+    const [contactTel, setContactTel] = useState('');
+    const [contactError, setContactError] = useState('');
     const [image, setImage] = useState(null);
     // const [imagePick, setImagePick] = useState(null);
     // const [uploading, setUploading] = useState(false);
@@ -43,12 +46,6 @@ const CreateFindMyPetScreen = () => {
     });
 
     const getPhotoPermission = async () => {
-        // if (Constants.platform.ios) {
-        //     const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
-        //     if (status != 'granted'){
-        //         alert("We need permission to access your camera roll");
-        //     }
-        // }
         const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status != 'granted'){
             alert("We need permission to access your camera roll");
@@ -89,6 +86,14 @@ const CreateFindMyPetScreen = () => {
             setDetailError('')
         }
     }
+    const contactValidator = () => {
+        if (contactLine == "" || contactTel == ""){
+            setContactError("กรุณาใส่ช่องทางการติดต่อ")
+        }
+        else{
+            setContactError('')
+        }
+    }
 
     const handlePost = () => {
         console.log('-----------------handlePost----------------------')
@@ -104,10 +109,14 @@ const CreateFindMyPetScreen = () => {
         else if(detail==""){
             setDetailError("กรุณาใส่รายละเอียด")
         }
+        else if(contactLine=="" || contactTel==""){
+            setContactError('กรุณาใส่ช่องทางการติดต่อ')
+        }
         else{
             setNamePetError('')
             setBreedError('')
             setDetailError('')
+            setContactError('')
         }
         db.collection('postFindMyPets').add({
             namePet: namePet.trim(),
@@ -115,6 +124,8 @@ const CreateFindMyPetScreen = () => {
             breed: breed.trim(),
             location: location.trim(),
             detail: detail.trim(),
+            contactLine: contactLine.trim(),
+            contactTel: contactTel.trim(),
             localUri: image,
             timestamp: Date.now(),
             uid: auth.currentUser?.uid
@@ -283,6 +294,36 @@ const CreateFindMyPetScreen = () => {
                     value={detail}>
                 </TextInput>
                 <Text style={{color:'red',size:16,}}>{detailError}</Text>
+                <Text style={styles.label}>ช่องทางการติดต่อ :</Text>
+                <View style={styles.contact}>
+                    <FontAwesome5 name="line" size={36} color="black" style={{marginTop: 12, marginLeft: 12}}/>
+                    <TextInput
+                        style={styles.textInputContact}
+                        placeholder="หากไม่มีกรุณาใส่ - "
+                        onBlur={() => contactValidator()}
+                        onChangeText={text => setContactLine(text)}
+                        value={contactLine}>
+                    </TextInput>
+                </View>
+                <View style={styles.contact}>
+                    <FontAwesome5 name="phone-alt" size={32} color="black" style={{marginTop: 12, marginLeft: 12}}/>
+                    <TextInput
+                        style={styles.textInputContact}
+                        placeholder="หากไม่มีกรุณาใส่ - "
+                        onBlur={() => contactValidator()}
+                        onChangeText={text => setContactTel(text)}
+                        value={contactTel}
+                        keyboardType='phone-pad'>
+                    </TextInput>
+                </View>
+                {/* <TextInput
+                    style={styles.textInput}
+                    placeholder=""
+                    onBlur={() => contactValidator()}
+                    onChangeText={text => setContact(text)}
+                    value={contact}>
+                </TextInput> */}
+                <Text style={{color:'red',size:16,}}>{contactError}</Text>
 
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                     <Text style={styles.label}>รูปภาพสัตว์เลี้ยงของคุณ :</Text>
@@ -343,5 +384,19 @@ const styles = StyleSheet.create({
     photo: {
         alignItems: 'flex-end',
         marginHorizontal: 10,
+    },
+    contact: {
+        flexDirection: 'row',
+        borderColor: '#d8d9db',
+        // paddingBottom: 10,
+    },
+    textInputContact:{
+        flex: 1,
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 10,
+        borderColor: '#d8d9db',
     }
 })

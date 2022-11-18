@@ -23,7 +23,7 @@ const FindMyPetScreen = () => {
         querySnapshot => {
           const posts = [];
           querySnapshot.forEach((doc) => {
-            const {breed, detail, localUri, location, namePet, petType, timestamp, uid} = doc.data()
+            const {breed, contact, detail, localUri, location, namePet, petType, timestamp, uid} = doc.data()
             posts.push({
               id: doc.id,
               namePet,
@@ -31,6 +31,7 @@ const FindMyPetScreen = () => {
               breed,
               location,
               detail,
+              contact,
               localUri,
               timestamp,
               uid
@@ -79,6 +80,13 @@ const FindMyPetScreen = () => {
       
     }
 
+    const detailPost = (postId) => {
+      console.log('postId : ', postId)
+      navigation.navigate('DetailFindMyPet', {
+        postId: postId
+      });
+    }
+
     return(
       <View style={styles.container}>
         {/* <Pressable onPress={getPost}>
@@ -114,8 +122,16 @@ const FindMyPetScreen = () => {
                           <View></View>
                         }
 
+                        {post.uid == auth.currentUser?.uid ?
+                          <Pressable style={styles.contact} onPress={() => detailPost(post.id)}>
+                            <Text style={styles.textBtn}>ดูโพสต์ของฉัน</Text>
+                          </Pressable>
+                        :
+                        <View></View>
+                        }
+
                         {post.uid != auth.currentUser?.uid ?
-                          <Pressable style={styles.contact} >
+                          <Pressable style={styles.contact} onPress={() => detailPost(post.id)}>
                             <Text style={styles.textBtn}>ติดต่อเจ้าของ</Text>
                           </Pressable>
                         :

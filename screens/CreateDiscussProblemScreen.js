@@ -147,12 +147,12 @@ const CreateDiscussProblemScreen = () => {
                         </TouchableOpacity>
                     </View>
 
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                        <Text style={styles.label}>รูปภาพของคุณ :</Text>
-                        <TouchableOpacity style={styles.photo} onPress={pickImage}>
-                            <MaterialIcons name="add-photo-alternate" size={32} color="#d8d9db" />
-                        </TouchableOpacity>
-                    </View>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                <Text style={styles.label}>รูปภาพของคุณ :</Text>
+                <TouchableOpacity style={styles.photo} onPress={pickImage}>
+                    <MaterialIcons name="add-photo-alternate" size={32} color="#d8d9db" />
+                </TouchableOpacity>
+            </View>
           
 
             <View style={{ marginTop: 10, height: '100%', width: '100%', marginHorizontal: 13}}>

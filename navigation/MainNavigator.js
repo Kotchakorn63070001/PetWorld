@@ -24,6 +24,8 @@ import CreateFindMyPetScreen from "../screens/CreateFindMyPetScreen";
 import CustomHeaderButton from "../components/CustomHeaderButton";
 import CreateDiscussProblemScreen from "../screens/CreateDiscussProblemScreen";
 import CreateFindHomeScreen from "../screens/CreateFindHomeScreen";
+import DetailFindMyPetScreen from "../screens/DetailFindMyPetScreen";
+
 import { auth } from "../firebase";
 
 
@@ -106,6 +108,7 @@ function MyStack(){
             {/* <Stack.Screen name="EditFindMyPost" component={EditFindMyPost}/> */}
             <Stack.Screen name="CreateDiscussProblem" component={CreateDiscussProblemScreen}/>
             <Stack.Screen name="CreateFindHome" component={CreateFindHomeScreen} />
+            <Stack.Screen name="DetailFindMyPet" component={DetailFindMyPetScreen}/>
             <Stack.Screen name="AllTab" component={MyBottomTab}/>
         </Stack.Navigator>
     );
