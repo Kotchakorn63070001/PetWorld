@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
   },
   postItem: {
-    backgroundColor: 'skyblue',
+    backgroundColor: '#B2D0E4',
     borderRadius: 10,
     padding: 8,
     flexDirection: 'row',
