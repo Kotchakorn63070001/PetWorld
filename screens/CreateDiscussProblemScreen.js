@@ -20,7 +20,10 @@ const CreateDiscussProblemScreen = () => {
     const [type, setType] = useState('');
     const [isDog, setIsDog] = React.useState(true);
     const [isCat, setIsCat] = React.useState(false);
+    const [userImage,setUserImage] = useState(null)
+
     useEffect(() => {
+        console.log(userImage)
         getPhotoPermission();
         if (isDog == true){
             setType('หมา')
@@ -29,8 +32,27 @@ const CreateDiscussProblemScreen = () => {
             setType('แมว')
             // console.log(type)
         }
+        db.collection('user')
+        .onSnapshot(
+        querySnapshot => {
+        
+        querySnapshot.forEach((doc) => {
+          const { localUri, uid} = doc.data()
+          if(uid === auth.currentUser?.uid){
+           
+            setUserImage(localUri)
+          }
+          //  else if(localUri==null||localUri==undefined){
+          //   setUserImage(require('../assets/avatar.png'))
+          //  }
+          console.log(userImage+"---------------------------------image1212")
+            
+            
+        })
+    });
         // console.log('---------------------------หมาหรือแมว : '+type+'----------------------')
       });
+      
 
       const getPhotoPermission = async () => {
         // if (Constants.platform.ios) {
@@ -135,7 +157,8 @@ const CreateDiscussProblemScreen = () => {
         
     <ScrollView>
         <View style={styles.inputContainer}>
-            <Image source={require("../assets/avatar.png")} style={styles.avatar}></Image>
+            {(userImage==null)?<Image source={require("../assets/avatar.png")} style={styles.avatar}></Image>:<Image source={{uri:userImage}} style={styles.avatar}></Image>}
+            {/* <Image source={require("../assets/avatar.png")} style={styles.avatar}></Image> */}
             <TextInput autoFocus={true} 
             multiline={true}
              numberOfLines={4}
