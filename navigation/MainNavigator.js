@@ -26,8 +26,9 @@ import CreateDiscussProblemScreen from "../screens/CreateDiscussProblemScreen";
 import CreateFindHomeScreen from "../screens/CreateFindHomeScreen";
 import DetailFindMyPetScreen from "../screens/DetailFindMyPetScreen";
 import DetailHelpFindHomeScreen from "../screens/DetailHelpFindHome";
-import poodleScreen from "../screens/Pet/poodle";
-import chihuahuaScreen from "../screens/Pet/chihuahua";
+import DetailDiscussProblemScreen from "../screens/DetailDiscussProblemScreen";
+import PoodleScreen from "../screens/Pet/Poodle";
+import ChihuahuaScreen from "../screens/Pet/Chihuahua";
 import BeagleScreen from "../screens/Pet/Beagle";
 import PugScreen from "../screens/Pet/Pug";
 import PomeranianScreen from "../screens/Pet/Pomeranian";
@@ -37,7 +38,7 @@ import LabradorScreen from "../screens/Pet/Labrador";
 import PersianScreen from "../screens/Pet/Persian";
 import BritishScreen from "../screens/Pet/British";
 import AmericanScreen from "../screens/Pet/American";
-import ScottishScreen from "../screens/Pet/scottish";
+import ScottishScreen from "../screens/Pet/Scottish";
 import SiameseScreen from "../screens/Pet/Siamese";
 import KoratScreen from "../screens/Pet/Korat";
 import RogdollScreen from "../screens/Pet/Ragdoll";
@@ -136,17 +137,18 @@ function MyStack(){
             <Stack.Screen name="CreateFindHome" component={CreateFindHomeScreen} />
             <Stack.Screen name="DetailFindMyPet" component={DetailFindMyPetScreen}/>
             <Stack.Screen name="DetailHelpFindHome" component={DetailHelpFindHomeScreen}/>
+            <Stack.Screen name="DetailDiscussProblem" component={DetailDiscussProblemScreen}/>
             {/* Parnn */}
             <Stack.Screen name="EditPet" component={EditPetScreen}/>
             <Stack.Screen name="CreatePet" component={CreatePetsScreen}/>
             {/* <Stack.Screen name="EditProfile" component={EditProfileScreen }/> */}
-            <Stack.Screen name="Poodle" component={poodleScreen}/>
-            <Stack.Screen name="chihuahua" component={chihuahuaScreen}/>
+            <Stack.Screen name="Poodle" component={PoodleScreen}/>
+            <Stack.Screen name="Chihuahua" component={ChihuahuaScreen}/>
             <Stack.Screen name="Beagle" component={BeagleScreen}/>
             <Stack.Screen name="Pug" component={PugScreen}/>
             <Stack.Screen name="Pomeranian" component={PomeranianScreen}/>
             <Stack.Screen name="Golden" component={GoldenScreen}/>
-            <Stack.Screen name="siberian" component={SaiberianScreen}/>
+            <Stack.Screen name="Siberian" component={SaiberianScreen}/>
             <Stack.Screen name="Labrador" component={LabradorScreen}/>
             <Stack.Screen name="Persian" component={PersianScreen}/>
             <Stack.Screen name="British" component={BritishScreen}/>

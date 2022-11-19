@@ -95,7 +95,7 @@ const DogData = () =>{
                     </View>
                     <View style={styles.postPetItem} >
                         <View >
-                        <Pressable onPress={() => {navigation.navigate('chihuahua')}}>
+                        <Pressable onPress={() => {navigation.navigate('Chihuahua')}}>
                         <Image source={require("../assets/chihuahua.jpg")} style={styles.picPet}/>
                             <Text style={styles.textPet}>Chihuahua</Text>
                         </Pressable>
@@ -150,7 +150,7 @@ const DogData = () =>{
                 <View style={{flexDirection: 'row',flex:1}}>
                     <View style={styles.postPetItem} >
                         <View >
-                        <Pressable onPress={() => {navigation.navigate('siberian')}}>
+                        <Pressable onPress={() => {navigation.navigate('Siberian')}}>
                         <Image source={require("../assets/Siberian.jpg")} style={styles.picPet}/>
                             <Text style={styles.textPet}>Siberian Husky</Text>
                         </Pressable>

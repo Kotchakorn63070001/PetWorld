@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View,TouchableWithoutFeedback, SafeAreaView,Pressable, ScrollView ,Image} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from "@expo/vector-icons";
-const poodleScreen = () => {
+const PoodleScreen = () => {
 
     const navigation = useNavigation();
     return(
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
       }
 });
 
-export default  poodleScreen;
+export default  PoodleScreen;

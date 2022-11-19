@@ -37,6 +37,12 @@ const DiscussProblemScreen = () => {
       )
     }, []);
 
+    const detailPost = (postId) => {
+      console.log('postId : ', postId)
+      navigation.navigate('DetailDiscussProblem', {
+        postId: postId
+      });
+    }
 
     const deletePost = (postId) => {
       console.log('postId : ', postId)
@@ -90,7 +96,7 @@ const DiscussProblemScreen = () => {
                         }
 
                         {post.uid != auth.currentUser?.uid ?
-                          <Pressable style={styles.contact} >
+                          <Pressable style={styles.contact} onPress={() => detailPost(post.id)}>
                             <Text style={styles.textBtn}>แสดงความคิดเห็น</Text>
                           </Pressable>
                         :

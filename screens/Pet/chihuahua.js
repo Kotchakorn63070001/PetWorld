@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from "@expo/vector-icons";
 
 
-const chihuahuaScreen = () => {
+const ChihuahuaScreen = () => {
 
     const navigation = useNavigation();
     return(
@@ -77,4 +77,4 @@ const styles = StyleSheet.create({
       }
 });
 
-export default  chihuahuaScreen;
+export default  ChihuahuaScreen;
