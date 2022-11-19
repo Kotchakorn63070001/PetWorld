@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, SafeAreaView, Pressable, TextInput, ScrollView, Keyboard } from 'react-native'
+import { StyleSheet, Text, View, Image, SafeAreaView, Pressable, TextInput, ScrollView, Keyboard, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Ionicons, MaterialIcons, FontAwesome5} from '@expo/vector-icons'
 import { db, auth  } from '../firebase';
@@ -28,19 +28,21 @@ const DetailFindMyPetScreen = ({route, navigation}) => {
       querySnapshot => {
         const comments = [];
         querySnapshot.forEach((doc) => {
-          const {commentDetail, postIdComment, timestamp, username, uid} = doc.data()
+          const {commentDetail, postId, timestamp, username, uid} = doc.data()
           comments.push({
             id: doc.id,
             commentDetail,
-            postIdComment,
+            postId,
             timestamp,
             username,
             uid
           })
         })
+        // console.log(comments)
         setCommentFindMyPet(comments)
       }
     )
+    // console.log(commentFindMyPet)
 
     db.collection('postFindMyPets')
         .doc(postId)
@@ -97,7 +99,8 @@ const DetailFindMyPetScreen = ({route, navigation}) => {
 
   const sendComment = () => {
     const index = auth.currentUser?.email.indexOf('@');
-    const username = auth.currentUser?.email.slice(index, auth.currentUser?.email.length())
+    const email = auth.currentUser?.email;
+    const username = email.slice(0, index)
     db.collection('commentFindMyPets').add({
       postId: postId,
       commentDetail: comment.trim(),
@@ -112,6 +115,32 @@ const DetailFindMyPetScreen = ({route, navigation}) => {
     .catch((error) => {
         console.error("Error adding document: ", error);
     });
+  }
+
+  const deleteComment = (commentId) => {
+    console.log('commentId : ', commentId)
+    Alert.alert(
+      "ลบคอมเมนต์",
+      "คุณแน่ใจหรือว่าต้องการลบคอมเมนต์นี้?",
+      [
+        {
+          text: 'ยกเลิก',
+          style: "cancel",
+          onPress: () => console.log("cancel delete post")
+        },
+        {
+          text: 'ลบ',
+          onPress: () => {
+            db.collection('commentFindMyPets')
+            .doc(commentId)
+            .delete()
+            .then((res) => {
+              console.log("The comment was deleted!! Pls check your DB!!")
+            })
+          },
+        }
+      ]
+    )
   }
 
   return (
@@ -147,7 +176,7 @@ const DetailFindMyPetScreen = ({route, navigation}) => {
         
         <View>
             {commentFindMyPet.map((comment, index) => {
-              if (comment.postIdComment == postId){
+              if (comment.postId == postId){
                 return(
                   <View style={styles.commentItem} key={index}>
                     <Image source={require("../assets/avatar.png")} style={styles.avatar}/>
@@ -155,8 +184,17 @@ const DetailFindMyPetScreen = ({route, navigation}) => {
                       <View style={{flexDirection: 'col', justifyContent: 'space-between', }}>
                         <Text style={styles.username}> {comment.username}</Text>
                         <Text style={styles.text}> {comment.commentDetail}</Text>
-                       </View>
+                      </View>
                     </View>
+                    {comment.uid == auth.currentUser?.uid ? 
+                        <View style={{flex: 1,flexDirection: 'column', alignItems: 'flex-end'}}>
+                          <Pressable style={styles.delete} onPress={() => deleteComment(comment.id)}>
+                            <Text style={styles.textBtn}>ลบ</Text>
+                          </Pressable>
+                        </View>
+                    : 
+                    <View></View>
+                    }
                   </View>
                 );
               }
@@ -178,10 +216,10 @@ const DetailFindMyPetScreen = ({route, navigation}) => {
         <Pressable 
           style={styles.btnSend} 
           onPress={sendComment} 
-          disabled={false} 
+          disabled={comment == "" ? true : false} 
           // activeOpacity={disabled ? 1 : 0.7}
         >
-          <Text>ตอบกลับ</Text>
+          <Text style={{color: 'white', fontWeight: '500'}}>ตอบกลับ</Text>
         </Pressable>
       </View>
       {/* </View> */}
@@ -275,12 +313,27 @@ const styles = StyleSheet.create({
     marginBottom: '80%'
   },
   commentItem: {
-    backgroundColor: '#B2D0E4',
+    backgroundColor: '#DFDFDF',
     borderRadius: 10,
     padding: 8,
     flexDirection: 'row',
     marginVertical: 8,
     marginHorizontal: 10,
     alignItems: 'center'
+  },
+  delete: {
+    width: 33,
+    padding: 5,
+    borderRadius: 10,
+    marginTop: 0,
+    marginBottom: 0,
+    backgroundColor: '#FF8858',
+    marginHorizontal: 3
+  },
+  textBtn: {
+    color: 'white',
+    fontSize: 15,
+    fontWeight: '500',
+    textAlign: 'center'
   }
 })

@@ -46,6 +46,7 @@ const DiscussProblemScreen = () => {
         [
           {
             text: 'ยกเลิก',
+            style: "cancel",
             onPress: () => console.log("cancel delete post")
           },
           {

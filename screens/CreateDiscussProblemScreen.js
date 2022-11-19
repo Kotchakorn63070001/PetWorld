@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, TextInput,ScrollView } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, TextInput,ScrollView, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
 // import React from 'react'
 import { Ionicons,MaterialIcons } from '@expo/vector-icons'
@@ -108,12 +108,27 @@ const CreateDiscussProblemScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
         <View style={styles.header}>
-            <TouchableOpacity onPress={() => navigation.goBack()} >
-                <Ionicons name="md-arrow-back" size={24} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handlePost}>
-                <Text style={{fontWeight: '500'}}>Post</Text>
-            </TouchableOpacity>
+                <Pressable onPress={() => navigation.goBack()}>
+                    <Ionicons name="md-arrow-back" size={24} color="black" />
+                </Pressable>
+                <Pressable 
+                    onPress={handlePost} 
+                    style={{
+                        borderRadius: 15,
+                        backgroundColor: "#f57c00",
+                        shadowColor: '#f57c00',
+                        shadowOffset: {
+                            width: 0,
+                            height: 2,
+                        },
+                        shadowOpacity: .4,
+                        shadowRadius: 8,
+                        padding: 2,
+                        width: 55,
+                        alignItems: 'center'
+                    }}>
+                    <Text style={{fontWeight: '500', fontSize: 16, color: 'white'}}>โพสต์</Text>
+                </Pressable>
         </View>
 
 

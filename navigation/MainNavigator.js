@@ -65,6 +65,7 @@ function MyBottomTab(){
                     tabBarIcon: ({color, size}) => {
                         return <MaterialIcons name="pets" size={24} color={color} />
                     },
+                    title: 'ตามหาสัตว์เลี้ยง'
                     
                 }}
             />
@@ -72,28 +73,32 @@ function MyBottomTab(){
                 options={{
                     tabBarIcon: ({color, size}) => {
                         return <Ionicons name="md-home" size={24} color={color} />
-                    }
+                    },
+                    title: 'ช่วยหาบ้าน'
                 }}
             />
             <BottomTab.Screen name="DiscussProblem" component={DiscussProblemScreen}
                 options={{
                     tabBarIcon: ({color, size}) => {
                         return <FontAwesome5 name="lightbulb" size={24} color={color} />
-                    }
+                    },
+                    title: 'ปรึกษาปัญหา'
                 }}
             />
             <BottomTab.Screen name="FindHospital" component={FindHospitalScreen}
                 options={{
                     tabBarIcon: ({color, size}) => {
                         return <Ionicons name="location" size={24} color={color} />
-                    }
+                    },
+                    title: 'ค้นหาโรงพยาบาล'
                 }}
             />
             <BottomTab.Screen name="BasicRearing" component={BasicRearingScreen}
                 options={{
                     tabBarIcon: ({color, size}) => {
                         return <Ionicons name="heart-circle-sharp" size={24} color={color} />
-                    }
+                    },
+                    title: 'วิธีการเลี้ยงดู'
                 }}
             />
         </BottomTab.Navigator>

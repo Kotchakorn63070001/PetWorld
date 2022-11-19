@@ -172,9 +172,24 @@ const CreateFindHomeScreen = () => {
             <Pressable onPress={() => navigation.goBack()} >
                 <Ionicons name="md-arrow-back" size={24} color="black" />
             </Pressable>
-            <Pressable onPress={handlePost}  style={{borderRadius: 15, backgroundColor: "#f57c00", padding: 2, width: 55, alignItems: 'center'}}>
-                <Text style={{fontWeight: '500',fontSize: 16, color: 'white'}}>Post</Text>
-            </Pressable>
+            <Pressable 
+                    onPress={handlePost} 
+                    style={{
+                        borderRadius: 15,
+                        backgroundColor: "#f57c00",
+                        shadowColor: '#f57c00',
+                        shadowOffset: {
+                            width: 0,
+                            height: 2,
+                        },
+                        shadowOpacity: .4,
+                        shadowRadius: 8,
+                        padding: 2,
+                        width: 55,
+                        alignItems: 'center'
+                    }}>
+                    <Text style={{fontWeight: '500', fontSize: 16, color: 'white'}}>โพสต์</Text>
+                </Pressable>
         </View >
 
         <ScrollView>

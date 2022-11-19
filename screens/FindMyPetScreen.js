@@ -61,6 +61,7 @@ const FindMyPetScreen = () => {
         [
           {
             text: 'ยกเลิก',
+            style: "cancel",
             onPress: () => console.log("cancel delete post")
           },
           {
