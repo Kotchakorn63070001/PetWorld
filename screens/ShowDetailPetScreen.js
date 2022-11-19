@@ -44,7 +44,7 @@ const EditPetScreen = () => {
     const [newImage,setNewImage] = useState(null);
     const [type,setType] = useState('');
     const [gender,setGender] = useState('');
-    const [date,setDate] = useState(new Date);
+    const [date,setDate] = useState();
     
     const[id,setId] = useState('');
     
