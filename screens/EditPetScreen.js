@@ -149,7 +149,7 @@ const EditPetScreen = () => {
                 vaccinate:newVaccinate,
                 // breed: breed,
                 // vaccinate:vaccinate,
-                localUri: route.params.localUri,
+                localUri: image,
                 petType: route.params.petType,
                 petGender: route.params.petGender,
                 brithday:route.params.brithday,
