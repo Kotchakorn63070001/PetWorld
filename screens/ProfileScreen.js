@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, TextInput, Alert } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, TextInput, Alert} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Ionicons, MaterialIcons} from '@expo/vector-icons'
 import Constants from 'expo-constants'
@@ -18,6 +18,13 @@ const ProfileScreen = () => {
     const navigation = useNavigation();
 
     const [addMyPet, setAddMyPet] = useState([]);
+    const [user,setUser] = useState([]);
+    const [image,setImage] = useState(null);
+    const [checkImage,setCheckImage] =useState(false);
+    const[tst,setTst] =useState();
+    const [fname, setfName] = useState('');
+    const [lname, setlName] = useState('');
+
 
     useEffect(() => {
 
@@ -40,15 +47,76 @@ const ProfileScreen = () => {
                     petType
                 })
               }
+             
             })
             setAddMyPet(pets)
           }
+        ),
+        db.collection('user')
+        
+        .onSnapshot(
+           
+          querySnapshot => {
+            const u = []; 
+            console.log("User DB")
+            querySnapshot.forEach((doc) => {
+              const { localUri,fname,lname,uid} = doc.data()
+              if(uid === auth.currentUser?.uid){
+                u.push({
+                    id: doc.id,
+                    localUri,
+                    uid,
+                    fname,
+                    lname,
+                    
+                })
+                
+                setImage(localUri)
+                setfName(fname)
+                setlName(lname)
+              } 
+            })
+            
+          }
+          
         )
+        // if((user[0].localUri==null || user[0].localUri==undefined) && checkImage==false&&(user!==null||user!== undefined)){
+        //     setImage("https://w7.pngwing.com/pngs/527/663/png-transparent-logo-person-user-person-icon-rectangle-photography-computer-wallpaper.png")
+        //   }
+        // if((user[0].localUri!==null || user[0].localUri!==undefined)&&(user!==null||user!== undefined)){
+        //     setImage(user[0].localUri)
+        //     setCheckImage(true)
+        //   }
+        // else{
+        //     setImage("https://w7.pngwing.com/pngs/527/663/png-transparent-logo-person-user-person-icon-rectangle-photography-computer-wallpaper.png")
+        // }
+        
       }, []);
 
-    //   const goToEditAndDelete = ()=>{
-    //     navigation.navigate('EditPet');
-    //   }
+    const deletePet=(id,namePet)=>{
+        Alert.alert(
+            "Delete",
+            "คุณแน่ใจหรือว่าต้องการลบ"+namePet+"?",
+            [
+              {
+                text: 'ยกเลิก',
+                onPress: () => console.log("cancel delete Pet")
+              },
+              {
+                text: 'ลบ',
+                onPress: () => {
+                  db.collection('addPets')
+                  .doc(id)
+                  .delete()
+                  .then((res) => {
+                    console.log("The post was deleted!! Pls check your DB!!")
+                  })
+                },
+              }
+            ]
+          )
+          
+        }  
 
 
     return (
@@ -63,8 +131,10 @@ const ProfileScreen = () => {
             <View style={styles.inputContainer}>
                 <View style={styles.card}>
                     <View style={styles.image}>
-                        <Image></Image>
-                        <Text style={styles.label}>ชื่อสัตว์เลี้ยง :</Text>
+                        {(image!==null) ? <Image source={{uri:image}} style={{width:100,height:100,borderRadius:"100%"}}></Image>:
+                        <Image source={{uri:"https://w7.pngwing.com/pngs/527/663/png-transparent-logo-person-user-person-icon-rectangle-photography-computer-wallpaper.png"}} style={{width:100,height:100,borderRadius:"100%"}}></Image>}
+                        {/* <Image source={{uri:image}}></Image> */}
+                        <Text style={{fontWeight: '400',fontSize: 16,alignItems:'center',marginTop:10,marginLeft:20}}>{fname+" "+lname}</Text>
                     </View>
                     
                     <View style={styles.editProfile}>
@@ -72,7 +142,7 @@ const ProfileScreen = () => {
                         <Text>{addMyPet.length}</Text>
                         <Text style={styles.label}>สัตว์เลี้ยง</Text>
                         <TouchableOpacity style={styles.btn}>
-                            <Text onPress={() => {navigation.navigate('Profile')}}>แก้ไขโปรไฟล์</Text>
+                            <Text onPress={() => {navigation.navigate('EditProfile',{uid:addMyPet[0].uid})}}>แก้ไขโปรไฟล์</Text>
                         </TouchableOpacity>
                     </View>
                      
@@ -90,10 +160,15 @@ const ProfileScreen = () => {
                                    
                                     <Image source={{uri:pets.localUri}} style={styles.photo} />
                                     
-                                    <Text style={styles.label}>{pets.namePet}
+                                    <Text style={styles.label} onPress={()=>navigation.navigate('DetailPet',{id:pets.id})}>{pets.namePet}
                                     
                                         <TouchableOpacity onPress={() => navigation.navigate('EditPet',{id:pets.id,localUri:pets.localUri,breed:pets.breed,vaccinate:pets.vaccinate,namePet:pets.namePet,brithday:pets.brithday,petGender:pets.petGender,petType:pets.petType})} >
-                                            <Ionicons name="create" size={16} color="black" />
+                                            <Ionicons name="ios-create-outline" size={16} color="black" />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity  onPress={()=>{
+                                            deletePet(pets.id,pets.namePet)  
+                                        }}>
+                                            <Ionicons name="ios-trash-outline" size={16} color="black" />
                                         </TouchableOpacity>
                                     </Text>
                                 </View>
