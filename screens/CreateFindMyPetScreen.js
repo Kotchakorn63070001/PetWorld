@@ -316,13 +316,6 @@ const CreateFindMyPetScreen = () => {
                         keyboardType='phone-pad'>
                     </TextInput>
                 </View>
-                {/* <TextInput
-                    style={styles.textInput}
-                    placeholder=""
-                    onBlur={() => contactValidator()}
-                    onChangeText={text => setContact(text)}
-                    value={contact}>
-                </TextInput> */}
                 <Text style={{color:'red',size:16,}}>{contactError}</Text>
 
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>

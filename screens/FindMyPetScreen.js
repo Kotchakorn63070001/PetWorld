@@ -23,7 +23,7 @@ const FindMyPetScreen = () => {
         querySnapshot => {
           const posts = [];
           querySnapshot.forEach((doc) => {
-            const {breed, contact, detail, localUri, location, namePet, petType, timestamp, uid} = doc.data()
+            const {breed, detail, localUri, location, namePet, petType, timestamp, uid} = doc.data()
             posts.push({
               id: doc.id,
               namePet,
@@ -31,7 +31,6 @@ const FindMyPetScreen = () => {
               breed,
               location,
               detail,
-              contact,
               localUri,
               timestamp,
               uid

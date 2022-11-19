@@ -63,8 +63,13 @@ const HelpFindHomeScreen = () => {
           }
         ]
       )
-      
-      
+    }
+
+    const detailPost = (postId) => {
+      console.log('postId : ', postId)
+      navigation.navigate('DetailHelpFindHome', {
+        postId: postId
+      });
     }
 
     return(
@@ -95,8 +100,16 @@ const HelpFindHomeScreen = () => {
                           <View></View>
                         }
 
+                        {post.uid == auth.currentUser?.uid ?
+                          <Pressable style={styles.contact} onPress={() => detailPost(post.id)}>
+                            <Text style={styles.textBtn}>ดูโพสต์ของฉัน</Text>
+                          </Pressable>
+                        :
+                        <View></View>
+                        }
+
                         {post.uid != auth.currentUser?.uid ?
-                          <Pressable style={styles.contact} >
+                          <Pressable style={styles.contact} onPress={() => detailPost(post.id)}>
                             <Text style={styles.textBtn}>ติดต่อเจ้าของ</Text>
                           </Pressable>
                         :

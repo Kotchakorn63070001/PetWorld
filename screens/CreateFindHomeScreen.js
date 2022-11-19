@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, TextInput ,Platform,Alert,ScrollView, Pressable} from 'react-native'
 import React, { useEffect, useState } from 'react'
 // import React from 'react'
-import { Ionicons,MaterialIcons } from '@expo/vector-icons'
+import { Ionicons,MaterialIcons, FontAwesome5} from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import Constants from 'expo-constants'
 import * as Permissions from 'expo-permissions'
@@ -30,6 +30,10 @@ const CreateFindHomeScreen = () => {
     const [sex, setSex] = useState('');
     const [isMale, setIsMale] = React.useState(true);
     const [isFemale, setIsFemale] = React.useState(false);
+    const [contactLine, setContactLine] = useState('');
+    const [contactTel, setContactTel] = useState('');
+    const [contactError, setContactError] = useState('');
+
     useEffect(() => {
         getPhotoPermission();
         if (isDog == true){
@@ -129,6 +133,14 @@ const CreateFindHomeScreen = () => {
             setDetailError('')
         }
     }
+    const contactValidator = () => {
+        if (contactLine == "" || contactTel == ""){
+            setContactError("กรุณาใส่ช่องทางการติดต่อ")
+        }
+        else{
+            setContactError('')
+        }
+    }
 
 
     const handlePost = () => {
@@ -141,16 +153,22 @@ const CreateFindHomeScreen = () => {
         else if(detail==""){
             setDetailError("กรุณาใส่รายละเอียด")
         }
+        else if(contactLine=="" || contactTel==""){
+            setContactError('กรุณาใส่ช่องทางการติดต่อ')
+        }
         else{
             setNamePetError('')
             setBreedError('')
             setDetailError('')
+            setContactError('')
         db.collection('postHelpFindHome').add({
             namePet: namePet.trim(),
             petType: type,
             breed: breed.trim(),
             sex: sex,
             detail: detail.trim(),
+            contactLine: contactLine.trim(),
+            contactTel: contactTel.trim(),
             localUri: image,
             timestamp: Date.now(),
             uid: auth.currentUser?.uid
@@ -189,7 +207,7 @@ const CreateFindHomeScreen = () => {
                         alignItems: 'center'
                     }}>
                     <Text style={{fontWeight: '500', fontSize: 16, color: 'white'}}>โพสต์</Text>
-                </Pressable>
+            </Pressable>
         </View >
 
         <ScrollView>
@@ -259,9 +277,32 @@ const CreateFindHomeScreen = () => {
                     value={detail}>
                 </TextInput>
             <Text style={{color:'red',size:16,}}>{detailError}</Text>
+            <Text style={styles.label}>ช่องทางการติดต่อ :</Text>
+                <View style={styles.contact}>
+                    <FontAwesome5 name="line" size={36} color="black" style={{marginTop: 12, marginLeft: 12}}/>
+                    <TextInput
+                        style={styles.textInputContact}
+                        placeholder="หากไม่มีกรุณาใส่ - "
+                        onBlur={() => contactValidator()}
+                        onChangeText={text => setContactLine(text)}
+                        value={contactLine}>
+                    </TextInput>
+                </View>
+                <View style={styles.contact}>
+                    <FontAwesome5 name="phone-alt" size={32} color="black" style={{marginTop: 12, marginLeft: 12}}/>
+                    <TextInput
+                        style={styles.textInputContact}
+                        placeholder="หากไม่มีกรุณาใส่ - "
+                        onBlur={() => contactValidator()}
+                        onChangeText={text => setContactTel(text)}
+                        value={contactTel}
+                        keyboardType='phone-pad'>
+                    </TextInput>
+                </View>
+                <Text style={{color:'red',size:16,}}>{contactError}</Text>
            
           
- <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                         <Text style={styles.label}>รูปภาพสัตว์เลี้ยงของคุณ :</Text>
                         <Pressable style={styles.photo} onPress={pickImage}>
                             <MaterialIcons name="add-photo-alternate" size={32} color="#d8d9db" />
@@ -324,4 +365,18 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: '#d8d9db',
     },
+    contact: {
+        flexDirection: 'row',
+        borderColor: '#d8d9db',
+        // paddingBottom: 10,
+    },
+    textInputContact:{
+        flex: 1,
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 10,
+        borderColor: '#d8d9db',
+    }
 })
