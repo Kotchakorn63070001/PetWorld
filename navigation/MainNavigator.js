@@ -26,7 +26,22 @@ import CreateDiscussProblemScreen from "../screens/CreateDiscussProblemScreen";
 import CreateFindHomeScreen from "../screens/CreateFindHomeScreen";
 import DetailFindMyPetScreen from "../screens/DetailFindMyPetScreen";
 import DetailHelpFindHomeScreen from "../screens/DetailHelpFindHome";
-
+import poodleScreen from "../screens/Pet/poodle";
+import chihuahuaScreen from "../screens/Pet/chihuahua";
+import BeagleScreen from "../screens/Pet/Beagle";
+import PugScreen from "../screens/Pet/Pug";
+import PomeranianScreen from "../screens/Pet/Pomeranian";
+import GoldenScreen from "../screens/Pet/Golden";
+import SaiberianScreen from "../screens/Pet/Siberian";
+import LabradorScreen from "../screens/Pet/Labrador";
+import PersianScreen from "../screens/Pet/Persian";
+import BritishScreen from "../screens/Pet/British";
+import AmericanScreen from "../screens/Pet/American";
+import ScottishScreen from "../screens/Pet/scottish";
+import SiameseScreen from "../screens/Pet/Siamese";
+import KoratScreen from "../screens/Pet/Korat";
+import RogdollScreen from "../screens/Pet/Ragdoll";
+import KhaoScreen from "../screens/Pet/Khao";
 import { auth } from "../firebase";
 
 {/* Parnn */}
@@ -125,6 +140,22 @@ function MyStack(){
             <Stack.Screen name="EditPet" component={EditPetScreen}/>
             <Stack.Screen name="CreatePet" component={CreatePetsScreen}/>
             {/* <Stack.Screen name="EditProfile" component={EditProfileScreen }/> */}
+            <Stack.Screen name="Poodle" component={poodleScreen}/>
+            <Stack.Screen name="chihuahua" component={chihuahuaScreen}/>
+            <Stack.Screen name="Beagle" component={BeagleScreen}/>
+            <Stack.Screen name="Pug" component={PugScreen}/>
+            <Stack.Screen name="Pomeranian" component={PomeranianScreen}/>
+            <Stack.Screen name="Golden" component={GoldenScreen}/>
+            <Stack.Screen name="siberian" component={SaiberianScreen}/>
+            <Stack.Screen name="Labrador" component={LabradorScreen}/>
+            <Stack.Screen name="Persian" component={PersianScreen}/>
+            <Stack.Screen name="British" component={BritishScreen}/>
+            <Stack.Screen name="American" component={AmericanScreen}/>
+            <Stack.Screen name="Scottish" component={ScottishScreen}/>
+            <Stack.Screen name="Siamese" component={SiameseScreen}/>
+            <Stack.Screen name="Korat" component={KoratScreen}/>
+            <Stack.Screen name="Ragdoll" component={RogdollScreen}/>
+            <Stack.Screen name="Khao" component={KhaoScreen}/>
             
             <Stack.Screen name="AllTab" component={MyBottomTab}/>
         </Stack.Navigator>
