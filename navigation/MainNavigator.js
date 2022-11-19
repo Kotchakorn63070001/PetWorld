@@ -144,8 +144,8 @@ function MyStack(){
             <Stack.Screen name="CreatePet" component={CreatePetsScreen}/>
             <Stack.Screen name="EditProfile" component={EditProfileScreen }/>
             <Stack.Screen name="DetailPet" component={ShowDetailPetScreen} />
-            <Stack.Screen name="Poodle" component={poodleScreen}/>
-            <Stack.Screen name="chihuahua" component={chihuahuaScreen}/>
+            <Stack.Screen name="Poodle" component={PoodleScreen}/>
+            <Stack.Screen name="Chihuahua" component={ChihuahuaScreen}/>
             <Stack.Screen name="Beagle" component={BeagleScreen}/>
             <Stack.Screen name="Pug" component={PugScreen}/>
             <Stack.Screen name="Pomeranian" component={PomeranianScreen}/>
