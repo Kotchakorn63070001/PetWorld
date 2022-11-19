@@ -69,14 +69,7 @@ function MyBottomTab(){
                 //         <Item title="chat" iconName="chatbubble-ellipses-sharp" onPress={() => {}} />
                 //     </HeaderButtons>
                 // },
-                headerRight: () => (
-                    <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                        <Item title="calendar" iconName="calendar" onPress={() => {}} />
-                        <Item title="notifications" iconName="notifications-sharp" onPress={() => {}} />
-                        <Item title="chat" iconName="chatbubble-ellipses-sharp" onPress={() => {}} />
-                    </HeaderButtons>
-                ),
-                headerTitleAlign: 'center',
+
             }}>
             <BottomTab.Screen name="FindMyPet" component={FindMyPetScreen}
                 options={{
