@@ -142,7 +142,7 @@ const ProfileScreen = () => {
                         <Text>{addMyPet.length}</Text>
                         <Text style={styles.label}>สัตว์เลี้ยง</Text>
                         <TouchableOpacity style={styles.btn}>
-                            <Text onPress={() => {navigation.navigate('EditProfile',{uid:addMyPet[0].uid})}}>แก้ไขโปรไฟล์</Text>
+                            <Text onPress={() => {navigation.navigate('EditProfile',{uid:auth.currentUser?.uid})}}>แก้ไขโปรไฟล์</Text>
                         </TouchableOpacity>
                     </View>
                      
