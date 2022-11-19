@@ -20,22 +20,41 @@ const DetailFindMyPetScreen = ({route, navigation}) => {
       const [commentFindMyPet, setCommentFindMyPet] = useState([]);
 
       const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+      const [user,setUser] = useState([]);
+      const [userImage,setUserImage] = useState(null)
   
   useEffect(() => {
+   
+    db.collection('user')
+      .onSnapshot(
+      querySnapshot => {
+        
+        querySnapshot.forEach((doc) => {
+          const { localUri, uid} = doc.data()
+          // if(uid === auth.currentUser?.uid){
+           
+            if(uid === auth.currentUser?.uid){
+           
+              setUserImage(localUri)
+            }
+        })
+    });
+
     db.collection('commentFindMyPets')
     .orderBy("timestamp", "desc")
     .onSnapshot(
       querySnapshot => {
         const comments = [];
         querySnapshot.forEach((doc) => {
-          const {commentDetail, postId, timestamp, username, uid} = doc.data()
+          const {commentDetail, postId, timestamp, username, uid,localUri} = doc.data()
           comments.push({
             id: doc.id,
             commentDetail,
             postId,
             timestamp,
             username,
-            uid
+            uid,
+            localUri
           })
         })
         // console.log(comments)
@@ -95,18 +114,23 @@ const DetailFindMyPetScreen = ({route, navigation}) => {
 
 
 
+
   }, []);
 
   const sendComment = () => {
     const index = auth.currentUser?.email.indexOf('@');
     const email = auth.currentUser?.email;
     const username = email.slice(0, index)
+    if(userImage==null){
+      setUserImage(null)
+    }
     db.collection('commentFindMyPets').add({
       postId: postId,
       commentDetail: comment.trim(),
       timestamp: Date.now(),
       uid: auth.currentUser?.uid,
-      username: username
+      username: username,
+      localUri:userImage
     })
     .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);
@@ -179,7 +203,7 @@ const DetailFindMyPetScreen = ({route, navigation}) => {
               if (comment.postId == postId){
                 return(
                   <View style={styles.commentItem} key={index}>
-                    <Image source={require("../assets/avatar.png")} style={styles.avatar}/>
+                   {(comment.localUri==null)?<Image source={require("../assets/avatar.png")} style={styles.avatar}></Image>:<Image source={{uri:comment.localUri}} style={styles.avatar}></Image>}
                     <View style={{flex: 1}}>
                       <View style={{flexDirection: 'col', justifyContent: 'space-between', }}>
                         <Text style={styles.username}> {comment.username}</Text>
@@ -204,7 +228,7 @@ const DetailFindMyPetScreen = ({route, navigation}) => {
 
       {/* <View > */}
       <View style={isKeyboardVisible ? styles.inputContainerOnTopKB : styles.inputContainer}>
-        <Image source={require("../assets/avatar.png")} style={styles.avatar}></Image>
+      {(userImage==null)?<Image source={require("../assets/avatar.png")} style={styles.avatar}></Image>:<Image source={{uri:userImage}} style={styles.avatar}></Image>}
         <TextInput 
           multiline={true}
           numberOfLines={3}
