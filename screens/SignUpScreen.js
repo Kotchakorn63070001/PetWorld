@@ -35,9 +35,7 @@ const SignUpScreen = () => {
         <View style={styles.container}>
             <Text style={styles.title}>Create an account</Text>
 
-            <TouchableOpacity style={styles.avatar}>
-                <Ionicons name="ios-add" size={40} color="white" style={{marginTop: 4, marginLeft: 2}}/>
-            </TouchableOpacity>
+
 
             {/* <CustomInput 
                 placeholder="Username" 
@@ -98,16 +96,6 @@ const styles = StyleSheet.create({
     color: '#051c60',
     margin: 10,
   },
-  avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: "#e1e2e6",
-    marginTop: 20,
-    marginBottom: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
 });
 
 export default SignUpScreen;
