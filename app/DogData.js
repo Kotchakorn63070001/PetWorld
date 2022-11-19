@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
               width:Dimensions.get('window').width
     },
     postItem: {
-        backgroundColor: 'skyblue',
+        backgroundColor: '#B2D0E4',
         borderRadius: 10,
         padding: 8,
         flexDirection: 'row',
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
         // marginRight: 16
       },
       postPetItem: {
-        backgroundColor: 'skyblue',
+        backgroundColor: '#B2D0E4',
         borderRadius: 10,
         padding: 8,
         flexDirection: 'row',
