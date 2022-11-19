@@ -95,6 +95,14 @@ const DiscussProblemScreen = () => {
                           <View></View>
                         }
 
+                        {post.uid == auth.currentUser?.uid ?
+                          <Pressable style={styles.contact} onPress={() => detailPost(post.id)}>
+                            <Text style={styles.textBtn}>ดูโพสต์ของฉัน</Text>
+                          </Pressable>
+                        :
+                        <View></View>
+                        }
+
                         {post.uid != auth.currentUser?.uid ?
                           <Pressable style={styles.contact} onPress={() => detailPost(post.id)}>
                             <Text style={styles.textBtn}>แสดงความคิดเห็น</Text>
