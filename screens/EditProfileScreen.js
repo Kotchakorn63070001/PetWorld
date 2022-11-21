@@ -197,9 +197,7 @@ const EditProfile = () => {
 
     }
     const handelCancelEditProfile=()=>{
-        setImage(user[0].localUri)
-        setfName(user[0].fname)
-        setlName(user[0].lname)
+        
         navigation.navigate('Profile')
     }
     return (
